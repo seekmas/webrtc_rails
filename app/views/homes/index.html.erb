@@ -1,0 +1,25 @@
+<% content_for :title do 'Makoto Video Link' end %>
+<h1>Rooms</h1>
+  
+  <ul class="collection">
+    <% @homes.each do |home| %>
+    <li class="collection-item avatar">
+      <%=image_tag home.cover.url(:medium) , :class => 'circle' %>
+      <span class="title">
+        <h5><%= link_to home.title, home %></h5>
+            <small><%= home.description%></small>
+            
+            <% if current_user.id == home.user %>
+            <%= link_to 'Edit', edit_home_path(home) %>
+            <%= link_to 'Destroy', home, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+      </span>
+      
+      <a href="#!" class="secondary-content"><i class="mdi-action-grade"></i></a>
+
+
+    </li>
+    <% end %>
+  </ul>
+<br>
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= yield(:title) %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-wrapper blue">
+      <a href="/" class="brand-logo">&nbsp;&nbsp;Makoto Sharing</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        
+        <li><%= link_to( 'Sharing Camera' , new_home_path)%></li>
+        <% if current_user %>
+          <li>
+            <%= link_to('Password', edit_registration_path(:user)) %>
+          </li>
+          <li>
+            <%= link_to('Sign Out', destroy_user_session_path, :method => :delete)%>
+          </li>
+        <% else %>
+          <li><%= link_to('Sign In', new_session_path(:user)) %></li>
+          <li><%= link_to('Sign Up', new_registration_path(:user)) %></li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+
+  <p id="notice"><%= notice %></p>
+
+  <div class="container">
+  <% if current_user and current_user.nickname == nil %>
+    
+    You have to fill the blank.
+    <%= form_for(current_user , :url => homes_path , :method => :get ) do |f| %>
+      <div class="field">
+        <%= f.label 'My Name' %><br />
+        <%= f.text_field :nickname, autofocus: true %>
+      </div>
+
+      <div class="actions">
+        <%= f.button 'Finish', :type => :submit , :class => 'waves-effect waves-light btn-large' %>
+      </div>
+    <% end %>
+  
+  <% end %>
+  </div>
+
+  <div class="container">
+    <%= render :partial => 'socket' %>
+    <%= yield %>
+  </div>
+
+
+  <footer class="page-footer blue">
+    <div class="container">
+      <div class="row">
+      	<%= render :partial => 'footer' %>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      2015
+      </div>
+    </div>
+  </footer>
+
+  <%= yield(:javascript) %>
+
+</body>
+</html>

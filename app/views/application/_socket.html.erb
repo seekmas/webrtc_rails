@@ -1,0 +1,34 @@
+<script>
+var socket = io('http://192.168.199.217:12138');
+console.log(socket);
+</script>
+
+<% if current_user %>
+<script>
+  socket.emit('join', 
+    { 
+      id: <%=current_user.id %> ,
+      name: '<%= current_user.nickname ? current_user.nickname : 'New User'  %>',
+      position: '<%= request.original_url %>'
+    }
+  );
+</script>
+<% end %>
+
+<script>
+  socket.emit('list users');
+  socket.on('list users' , function(data){
+
+  	$('#user_list').html('');
+  	for(key in data)
+  	{
+  		$('#user_list').append('<div class="col s3"><a class="modal-trigger" href="'+data[key]['position']+'"><i class="mdi-action-accessibility left"></i> '+data[key]['name']+'</a></div>');
+  	}
+  });
+</script>
+
+
+<div class="row icon-container">
+      <div class="col s12"><h5>Who is online</h5><hr/></div>
+      <div id="user_list"></div>
+</div>

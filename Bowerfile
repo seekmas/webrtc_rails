@@ -1,0 +1,3 @@
+asset 'webrtc' , 'https://github.com/HenrikJoreteg/SimpleWebRTC.git'
+asset 'socket.io' , 'https://cdn.socket.io/socket.io-1.3.4.js'
+asset 'easyModal' , 'https://github.com/flaviusmatis/easyModal.js.git'
