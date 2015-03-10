@@ -14,7 +14,9 @@ class HomesController < ApplicationController
   # GET /homes/1
   # GET /homes/1.json
   def show
-    if @home.password != nil
+
+
+    if @home.password != ''
       @password_chain = PasswordChain.find_by(:user_id => current_user.id , :home_id => @home.id)
 
       if @password_chain == nil
@@ -27,25 +29,20 @@ class HomesController < ApplicationController
   def password
     @home = Home.find(params[:home_id])
     @password_confirmation = Home.new
-
     if params[:home]
       if params[:home][:password] == @home.password
-          
           PasswordChain.create({:user_id => current_user.id , :home_id => @home.id});
           redirect_to @home
-
       else
         redirect_to password_confirmation_path(:home_id => @home.id) , :notice => 'Password Error'
       end
-
     end
-
   end
 
   # GET /homes/new
   def new
     @home = Home.new
-    @home.user = current_user.id
+    
   end
 
   # GET /homes/1/edit
@@ -56,6 +53,7 @@ class HomesController < ApplicationController
   # POST /homes.json
   def create
     @home = Home.new(home_params)
+    @home.user = current_user.id
 
     respond_to do |format|
       if @home.save

@@ -7,7 +7,7 @@
       <%=image_tag home.cover.url(:medium) , :class => 'circle' %>
       <span class="title">
         <h5><%= link_to home.title, home %></h5>
-            <small><%= home.description%></small>
+            <p>(Password required) <%= home.description%> </p>
             
             <% if current_user.id == home.user %>
             <%= link_to 'Edit', edit_home_path(home) %>
